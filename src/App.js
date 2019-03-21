@@ -17,7 +17,7 @@ class App extends Component {
     Note: If we change this special property called state, it will lead React to re-render
     (update) our DOM.
 
-    Note: With React 16.8 a new feature called 'React Hooks' that will allow us to also manage state
+    Note: With React 16.8 a new feature called 'React Hooks' will allow us to also manage state
     in 'functional components' like we do here in 'class components' (default way of adding it).
   */
 
