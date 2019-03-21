@@ -1,4 +1,12 @@
-## Base React.js Instructions
+## Practice Express.js
+
+Practice React.js fundamentals.
+
+## Technologies
+
+:coffee: **_React.js_**
+
+## Start of React.js Template Instructions
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
