@@ -21,7 +21,7 @@ class App extends Component {
     in 'functional components' like we do here in 'class components' (default way of adding it).
   */
 
-  switchNameHandler = () => {
+  switchNameHandler = newName => {
     // console.log("Switch Name button was clicked!");
     // this.state.persons[0].name = "Maximilian"; // DON'T DO THIS - DO NOT 'MUTATE' STATE DIRECTLY.
     // use this.setState({}) method to allow us to update the special 'state' property and ensures
@@ -44,7 +44,7 @@ class App extends Component {
     // property 'otherState' untouched since we are not defining any changes below for that property.
     this.setState({
       persons: [
-        { name: "Maximillian", age: 28 },
+        { name: newName, age: 28 },
         { name: "Manu", age: 29 },
         { name: "Stephanie", age: 27 }
       ]
@@ -61,7 +61,32 @@ class App extends Component {
           just syntactic sugar for JavaScript, allowing you to write HTMLish
           code instead of nested React.createElement(...) calls.
         </p>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
+        {/* Alternatives to passing arguments */}
+        {/* <button onClick={this.switchNameHandler}>Switch Name</button> */}
+        {/* <button onClick={this.switchNameHandler.bind(this, "Maximillian")}> */}
+
+        {/*
+          By using arrow function, in the function body, what we return is a function call (this is why 
+          we added the parenthesis).
+          
+          The key here is that the function call is 'not getting executed immediately'.  Instead what
+          we pass here is an 'anonymous function' which will be excuted on a click and
+          which then returns the result of this function getting executed which finally leads
+          to the this.setState() function getting executed to re-render the DOM.
+
+          Arrow function with one line 'implicitly' adds a 'return'.
+          onClick={() => this.switchNameHandler("Maximillian!!")}
+
+        */}
+
+        <button
+          onClick={() => {
+            return this.switchNameHandler("Maximillian!!");
+          }}
+        >
+          Switch Name
+        </button>
+
         {/* <Person name="Max" age="28" /> */}
         <Person
           name={this.state.persons[0].name}
@@ -70,6 +95,7 @@ class App extends Component {
         <Person
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, "Max!")} // Passing method refrence as props between components.
         >
           My Hobbies: Racing
         </Person>
