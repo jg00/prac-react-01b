@@ -1,0 +1,15 @@
+/* 
+    Note that any css written here is 'not' scoped to the Person.js (it is global css code).
+    So it is good to use appropriate class names by using your component name.
+
+    box-shawdow: offset-x offset-y blur-radius spread-radius color
+*/
+
+.Person {
+  width: 60%;
+  margin: 16px auto;
+  border: 1px solid #eee;
+  box-shadow: 2px 2px 2px 2px #888;
+  padding: 16px;
+  text-align: center;
+}

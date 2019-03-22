@@ -51,7 +51,29 @@ class App extends Component {
     });
   };
 
+  nameChangedHandler = event => {
+    this.setState({
+      persons: [
+        { name: "Max", age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: "Stephanie", age: 26 }
+      ]
+    });
+  };
+
   render() {
+    /* 
+      Inline styles - this is a Javascript object.  Values need to be in quotes and have to be strings. 
+      Scoped to this component or the element you added it to like the button below.
+    */
+    const style = {
+      backgroundColor: "white",
+      font: "inherit",
+      border: "1px solid blue",
+      padding: "8px",
+      cursor: "pointer"
+    };
+
     return (
       <div className="App">
         <h1>My React App</h1>
@@ -80,6 +102,7 @@ class App extends Component {
         */}
 
         <button
+          style={style} // JSX style attibute
           onClick={() => {
             return this.switchNameHandler("Maximillian!!");
           }}
@@ -96,6 +119,7 @@ class App extends Component {
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
           click={this.switchNameHandler.bind(this, "Max!")} // Passing method refrence as props between components.
+          changed={this.nameChangedHandler}
         >
           My Hobbies: Racing
         </Person>
