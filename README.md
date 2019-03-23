@@ -1,4 +1,4 @@
-## Practice Express.js
+## Practice React.js
 
 Practice React.js fundamentals.
 
