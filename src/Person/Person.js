@@ -29,8 +29,7 @@ const person = props => {
         I'm {props.name} and I am {props.age} years old!
       </p>
       <p>{props.children}</p>
-      // Two way binding - we listen to changes which updates the state and we
-      pass down state values
+      {/*Two way binding - we listen to changes which updates the state and we pass down state values*/}
       <input type="text" onChange={props.changed} value={props.name} />
     </div>
   );

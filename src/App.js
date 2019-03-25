@@ -6,9 +6,9 @@ class App extends Component {
   // Class' Component State.  We use this to manage state from inside a component.  Props was used to get information from the outside.
   state = {
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Stephanie", age: 26 }
+      { id: "aa1", name: "Max", age: 28 },
+      { id: "aa2", name: "Manu", age: 29 },
+      { id: "aa3", name: "Stephanie", age: 26 }
     ],
     otherState: "some other value",
     showPersons: false
@@ -52,7 +52,30 @@ class App extends Component {
     });
   };
 
-  nameChangedHandler = event => {
+  // We could have also passed the index instead of id
+  nameChangedHandler = (event, id) => {
+    // 1 Find person by index, make copy of original person obj, and finally update the person obj copy.
+    const personIndex = this.state.persons.findIndex(p => p.id === id);
+
+    // const person = this.state.persons[personIndex] // DO NOT USE THIS SINCE JAVASCRIPT OBJECTS ARE REFERENCE TYPES.
+    // Here we end up pointing to the object which we could potentially 'MUTATE'.  Make a copy like below.
+    const person = { ...this.state.persons[personIndex] };
+
+    // Object.assign({}, obj) is an alterntive to spreading properties of the person object using spread operator.
+    // const person = Object.assign({}, this.state.persons[personIndex])
+
+    person.name = event.target.value;
+
+    // 2 Now make a copy of the full person's array and then update the specific person object at personIndex
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
+    });
+
+    // Kept for reference to show initial state
+    /*
     this.setState({
       persons: [
         { name: "Max", age: 28 },
@@ -60,12 +83,35 @@ class App extends Component {
         { name: "Stephanie", age: 26 }
       ]
     });
+    */
   };
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons; // current state
     this.setState({
       showPersons: !doesShow
+    });
+  };
+
+  /*
+    Flaw - Objects and Arrays in Javascript are reference types.  So when we are using
+      const persons = this.state.persons,
+    we actually 'get a pointer' to the original persons object managed by React (ie the original state).
+    If we then splice it here, we already 'mutated' this original data (BAD PRACTICE - THIS CAN LEAD
+    TO UNPREDICTABLE APPS!)
+
+    A GOOD PRACTICE is to craete a COPY of your array before manipulating it.
+
+    On way to make copy is by calling .slice() without arguments.  This retunrs a copy of your array.
+  */
+  deletePersonHandler = personIndex => {
+    // const persons = this.state.persons; // BAD PRACTICE b/c this is a pointer to original object managed by React.
+    // const persons = this.state.persons.slice(); // Notes .slice() and not .splice() here.  This is one way to make a copy of the full array(elements)
+    const persons = [...this.state.persons]; // Another way is to use ... ES6 spread operator to get new array copy of objects
+
+    persons.splice(personIndex, 1);
+    this.setState({
+      persons: persons
     });
   };
 
@@ -83,12 +129,44 @@ class App extends Component {
     };
 
     /*
-      Alternative to rendering content conditionally before the returning the JSX below.
-      Out side of JSX return() below we can write normal javascript code (like if..else statements)
+      Alternative to rendering content conditionally before returning the JSX below.
+      Outside of JSX return() below we can write normal javascript code (like if..else statements)
+
+      
     */
     let persons = null;
 
     if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return (
+              <Person
+                click={() => this.deletePersonHandler(index)}
+                name={person.name}
+                age={person.age}
+                changed={event => this.nameChangedHandler(event, person.id)}
+                key={person.id}
+                /* 
+                  'key' property is needed to allow React to keep track of the individual elements 
+                  so that it has a clear property it can compare between the different elements to 
+                  find out which elements changed and which didn't so it only rerenders the elements 
+                  which changed.
+
+                  Here {person.id} is provided that React can uniquely use to compare elements of the future
+                  with elements of the past.
+
+                  'index' is not really a good identifier b/c it the list chnages every element will receive
+                  a new 'index' at least every element after the change.
+                */
+              />
+            );
+          })}
+        </div>
+      );
+
+      /*
+      // Kept for reference before handling using javascript list
       persons = (
         <div>
           <Person
@@ -109,6 +187,7 @@ class App extends Component {
           />
         </div>
       );
+    */
     }
 
     return (
@@ -151,6 +230,7 @@ class App extends Component {
           Toggle Persons
         </button>
 
+        {/* Another way of conditionally rendeing content vs using ternary operations. */}
         {persons}
 
         {/* Remember in the end we are calling React.createElement() behind the scenes */}
