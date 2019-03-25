@@ -1,6 +1,6 @@
 ## Practice React.js
 
-Practice React.js fundamentals.
+Practice React.js fundamentals. Using this repo as a playground for practicing React.js.
 
 ## Technologies
 
