@@ -10,7 +10,8 @@ class App extends Component {
       { name: "Manu", age: 29 },
       { name: "Stephanie", age: 26 }
     ],
-    otherState: "some other value"
+    otherState: "some other value",
+    showPersons: false
   };
 
   /*
@@ -61,6 +62,13 @@ class App extends Component {
     });
   };
 
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons; // current state
+    this.setState({
+      showPersons: !doesShow
+    });
+  };
+
   render() {
     /* 
       Inline styles - this is a Javascript object.  Values need to be in quotes and have to be strings. 
@@ -73,6 +81,35 @@ class App extends Component {
       padding: "8px",
       cursor: "pointer"
     };
+
+    /*
+      Alternative to rendering content conditionally before the returning the JSX below.
+      Out side of JSX return() below we can write normal javascript code (like if..else statements)
+    */
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          <Person
+            name={this.state.persons[0].name}
+            age={this.state.persons[0].age}
+          />
+          <Person
+            name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            click={this.switchNameHandler.bind(this, "Max!")} // Passing method refrence as props between components.
+            changed={this.nameChangedHandler}
+          >
+            My Hobbies: Racing
+          </Person>
+          <Person
+            name={this.state.persons[2].name}
+            age={this.state.persons[2].age}
+          />
+        </div>
+      );
+    }
 
     return (
       <div className="App">
@@ -103,30 +140,43 @@ class App extends Component {
 
         <button
           style={style} // JSX style attibute
-          onClick={() => {
-            return this.switchNameHandler("Maximillian!!");
-          }}
+          // Keep for reference
+          // onClick={() => {
+          //   return this.switchNameHandler("Maximillian!!");
+          // }}
+
+          onClick={this.togglePersonsHandler}
         >
-          Switch Name
+          {/* Switch Name */}
+          Toggle Persons
         </button>
 
-        {/* <Person name="Max" age="28" /> */}
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}
-        />
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, "Max!")} // Passing method refrence as props between components.
-          changed={this.nameChangedHandler}
-        >
-          My Hobbies: Racing
-        </Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}
-        />
+        {persons}
+
+        {/* Remember in the end we are calling React.createElement() behind the scenes */}
+        {/* Below is one way to conditionally render content (using ternary operation) or we could do it above before render() is called. */}
+        {/*
+        {this.state.showPersons ? ( 
+          <div>
+            <Person
+              name={this.state.persons[0].name}
+              age={this.state.persons[0].age}
+            />
+            <Person
+              name={this.state.persons[1].name}
+              age={this.state.persons[1].age}
+              click={this.switchNameHandler.bind(this, "Max!")} // Passing method refrence as props between components.
+              changed={this.nameChangedHandler}
+            >
+              My Hobbies: Racing
+            </Person>
+            <Person
+              name={this.state.persons[2].name}
+              age={this.state.persons[2].age}
+            />
+          </div>
+        ) : null} 
+        */}
       </div>
     );
 
