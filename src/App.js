@@ -119,9 +119,13 @@ class App extends Component {
     /* 
       Inline styles - this is a Javascript object.  Values need to be in quotes and have to be strings. 
       Scoped to this component or the element you added it to like the button below.
+
+      By default, with inline styles, we cannot use pseudo selectors, media queries.
+      However we can use third-party library called 'Radium'
     */
     const style = {
-      backgroundColor: "white",
+      backgroundColor: "green",
+      color: "white",
       font: "inherit",
       border: "1px solid blue",
       padding: "8px",
@@ -165,6 +169,11 @@ class App extends Component {
         </div>
       );
 
+      /* After setting person variable above we can conditionally update the style {} object. 
+         Style object is a const but we are assigning a value to one of it's properties.
+      */
+      style.backgroundColor = "red";
+
       /*
       // Kept for reference before handling using javascript list
       persons = (
@@ -190,15 +199,24 @@ class App extends Component {
     */
     }
 
+    // One technique for assinging and updating list of classNames
+    // let classes = ["red", "bold"].join(" "); // We get "red bold"
+    // const is fine since we are not assigning a new value.
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push("red"); // classes = ['red']
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push("bold"); // classes = ['red', 'bold']
+    }
+
     return (
       <div className="App">
         <h1>My React App</h1>
-        <p>
-          This is JSX. All elements here (ex: div, h1, etc.) are provided by the
-          React library. JSX gets compiled. It is Javascript in the end. JSX is
-          just syntactic sugar for JavaScript, allowing you to write HTMLish
-          code instead of nested React.createElement(...) calls.
-        </p>
+
+        {/*  We could also assign className dynamically.  See classes variable above.  One way of doing this with array. */}
+        <p className={classes.join(" ")}>JSX JSX JSX</p>
+
         {/* Alternatives to passing arguments */}
         {/* <button onClick={this.switchNameHandler}>Switch Name</button> */}
         {/* <button onClick={this.switchNameHandler.bind(this, "Maximillian")}> */}
