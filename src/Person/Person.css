@@ -3,6 +3,10 @@
     So it is good to use appropriate class names by using your component name.
 
     box-shawdow: offset-x offset-y blur-radius spread-radius color
+
+    By the way, if you somehow also want to define a global (i.e. un-transformed) CSS class in such a .css 
+    file, you can prefix the selector with :global .
+      :global .Person { ... }
 */
 
 .Person {
@@ -12,4 +16,5 @@
   box-shadow: 2px 2px 2px 2px #888;
   padding: 16px;
   text-align: center;
+  cursor: pointer;
 }

@@ -19,7 +19,8 @@ import React from "react";
   B/c of Webpack build tool we can now import .css into Javascript.  During build webpack will 
   add to our HTML file.  These styles are later injected dynamically by webpac into our ./public/index.html file.
 */
-import "./Person.css";
+// import "./Person.css";
+import classes from "./Person.css";
 
 /*
   ---- CSS Modules ----
@@ -61,7 +62,7 @@ import "./Person.css";
 
 
   ---- React CSS Modules ----
-    - Different from above in that it uses styleName instead of className in JSX. 
+    - Different from above in that it can use styleName instead in addition to className in JSX. 
     - Lets you separate out the interpolation of global class into className like above.
     - <div className='global-css' styleName='local-module'></div>
     
@@ -76,7 +77,8 @@ import "./Person.css";
 const person = props => {
   return (
     // <p>I'm {props.name} and I am {Math.floor(Math.random() * 30)} years old!</p>
-    <div className="Person">
+    // <div className="Person">
+    <div className={classes.Person}>
       <p onClick={props.click}>
         I'm {props.name} and I am {props.age} years old!
       </p>

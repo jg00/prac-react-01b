@@ -1,5 +1,18 @@
 import React, { Component } from "react";
-import "./App.css";
+
+/*
+  With CSS Modules feature enabled in webpack.config.js, when we import "./App.css", it will now
+  'scope' these CSS classes in App.css to this component where we import it (ie App.js in this example).
+  
+  So now our CSS classes (.App, .red, .bold, etc..) in App.css can now be imported to this App.js file.
+  
+  We also tweak our import to use
+    import classes from './App.css'
+
+    'classes' above (or whatever name) is now 'our Javascript Object containing our CSS classes as properties'.
+*/
+// import "./App.css";
+import classes from "./App.css";
 
 import Person from "./Person/Person";
 
@@ -204,20 +217,23 @@ class App extends Component {
     // One technique for assinging and updating list of classNames
     // let classes = ["red", "bold"].join(" "); // We get "red bold"
     // const is fine since we are not assigning a new value.
-    const classes = [];
+    const assignedClasses = [];
     if (this.state.persons.length <= 2) {
-      classes.push("red"); // classes = ['red']
+      assignedClasses.push(classes.red); // classes = ['red']
+      // classes.push("red"); // classes = ['red']
     }
     if (this.state.persons.length <= 1) {
-      classes.push("bold"); // classes = ['red', 'bold']
+      assignedClasses.push(classes.bold); // classes = ['red', 'bold']
+      // classes.push("bold"); // classes = ['red', 'bold']
     }
 
     return (
-      <div className="App">
+      // <div className="App"> // Before using CSS Module that we now import all the CSS classes into an object we called 'classes'
+      <div className={classes.App}>
         <h1>My React App</h1>
 
         {/*  We could also assign className dynamically.  See classes variable above.  One way of doing this with array. */}
-        <p className={classes.join(" ")}>JSX JSX JSX</p>
+        <p className={assignedClasses.join(" ")}>JSX JSX JSX</p>
 
         {/* Alternatives to passing arguments */}
         {/* <button onClick={this.switchNameHandler}>Switch Name</button> */}
