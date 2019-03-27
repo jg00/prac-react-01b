@@ -139,6 +139,8 @@ class App extends Component {
       and CSS features like pseudo selectors, media queries.
       
       Available through Radium - All pseudo selectors.  Add inside of style below.
+      By default, with inline styles, we cannot use pseudo selectors, media queries.
+      However we can use third-party library called 'Radium'
     */
     const style = {
       backgroundColor: "green",
