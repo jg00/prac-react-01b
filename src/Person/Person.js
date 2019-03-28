@@ -75,6 +75,12 @@ import classes from "./Person.css";
 */
 
 const person = props => {
+  // Kept for reference only to throw error to be caught by ErrorBoundary
+  const rnd = Math.random();
+  if (rnd > 0.7) {
+    throw new Error("Something went wrong");
+  }
+
   return (
     // <p>I'm {props.name} and I am {Math.floor(Math.random() * 30)} years old!</p>
     // <div className="Person">

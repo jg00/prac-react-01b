@@ -13,8 +13,8 @@ import React, { Component } from "react";
 */
 // import "./App.css";
 import classes from "./App.css";
-
 import Person from "./Person/Person";
+import ErrorBoundary from "./ErrorBoundary/ErrorBoundary";
 
 class App extends Component {
   // Class' Component State.  We use this to manage state from inside a component.  Props was used to get information from the outside.
@@ -165,25 +165,27 @@ class App extends Component {
         <div>
           {this.state.persons.map((person, index) => {
             return (
-              <Person
-                click={() => this.deletePersonHandler(index)}
-                name={person.name}
-                age={person.age}
-                changed={event => this.nameChangedHandler(event, person.id)}
-                key={person.id}
-                /* 
-                  'key' property is needed to allow React to keep track of the individual elements 
-                  so that it has a clear property it can compare between the different elements to 
-                  find out which elements changed and which didn't so it only rerenders the elements 
-                  which changed.
-
-                  Here {person.id} is provided that React can uniquely use to compare elements of the future
-                  with elements of the past.
-
-                  'index' is not really a good identifier b/c it the list chnages every element will receive
-                  a new 'index' at least every element after the change.
-                */
-              />
+              <ErrorBoundary key={person.id}>
+                <Person
+                  click={() => this.deletePersonHandler(index)}
+                  name={person.name}
+                  age={person.age}
+                  changed={event => this.nameChangedHandler(event, person.id)}
+                  key={person.id} // If Person is wrapped around ErrorBoundary element, move to <ErrorBoundary> outer element where the key should always be in a map() method
+                  /* 
+                    'key' property is needed to allow React to keep track of the individual elements 
+                    so that it has a clear property it can compare between the different elements to 
+                    find out which elements changed and which didn't so it only rerenders the elements 
+                    which changed.
+  
+                    Here {person.id} is provided that React can uniquely use to compare elements of the future
+                    with elements of the past.
+  
+                    'index' is not really a good identifier b/c it the list chnages every element will receive
+                    a new 'index' at least every element after the change.
+                  */
+                />
+              </ErrorBoundary>
             );
           })}
         </div>
@@ -239,14 +241,11 @@ class App extends Component {
       // <div className="App"> // Before using CSS Module that we now import all the CSS classes into an object we called 'classes'
       <div className={classes.App}>
         <h1>My React App</h1>
-
         {/*  We could also assign className dynamically.  See classes variable above.  One way of doing this with array. */}
         <p className={assignedClasses.join(" ")}>JSX JSX JSX</p>
-
         {/* Alternatives to passing arguments */}
         {/* <button onClick={this.switchNameHandler}>Switch Name</button> */}
         {/* <button onClick={this.switchNameHandler.bind(this, "Maximillian")}> */}
-
         {/*
           By using arrow function, in the function body, what we return is a function call (this is why 
           we added the parenthesis).
@@ -260,7 +259,6 @@ class App extends Component {
           onClick={() => this.switchNameHandler("Maximillian!!")}
 
         */}
-
         <button
           className={btnClass} // Simply applying the string name 'Red'
           // style={style} // JSX style attibute
@@ -274,10 +272,8 @@ class App extends Component {
           {/* Switch Name */}
           Toggle Persons
         </button>
-
         {/* Another way of conditionally rendeing content vs using ternary operations. */}
         {persons}
-
         {/* Remember in the end we are calling React.createElement() behind the scenes */}
         {/* Below is one way to conditionally render content (using ternary operation) or we could do it above before render() is called. */}
         {/*
