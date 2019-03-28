@@ -141,7 +141,8 @@ class App extends Component {
       Available through Radium - All pseudo selectors.  Add inside of style below.
       By default, with inline styles, we cannot use pseudo selectors, media queries.
       However we can use third-party library called 'Radium'
-    */
+    
+    // Button in-line styling - kept for reference 
     const style = {
       backgroundColor: "green",
       color: "white",
@@ -150,12 +151,14 @@ class App extends Component {
       padding: "8px",
       cursor: "pointer"
     };
+    */
 
     /*
       Alternative to rendering content conditionally before returning the JSX below.
       Outside of JSX return() below we can write normal javascript code (like if..else statements)
     */
     let persons = null;
+    let btnClass = "";
 
     if (this.state.showPersons) {
       persons = (
@@ -186,10 +189,13 @@ class App extends Component {
         </div>
       );
 
+      /* Set button styling, inject into return() below. btnClass is just a variable with a value we set and then we use it in the return() */
+      btnClass = classes.Red; // classes.Red is just a string created by the CSS loader (value = "App_Red_2T8IA")
+
       /* After setting person variable above we can conditionally update the style {} object. 
          Style object is a const but we are assigning a value to one of it's properties.
       */
-      style.backgroundColor = "red";
+      // style.backgroundColor = "red";
 
       /*
       // Kept for reference before handling using javascript list
@@ -256,7 +262,8 @@ class App extends Component {
         */}
 
         <button
-          style={style} // JSX style attibute
+          className={btnClass} // Simply applying the string name 'Red'
+          // style={style} // JSX style attibute
           // Keep for reference
           // onClick={() => {
           //   return this.switchNameHandler("Maximillian!!");
