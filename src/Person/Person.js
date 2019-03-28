@@ -86,7 +86,7 @@ const person = props => {
     // <div className="Person">
     <div className={classes.Person}>
       <p onClick={props.click}>
-        I'm {props.name} and I am {props.age} years old!
+        I am {props.name} and I am {props.age} years old!
       </p>
       <p>{props.children}</p>
       {/*Two way binding - we listen to changes which updates the state and we pass down state values*/}
