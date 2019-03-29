@@ -18,8 +18,10 @@ const cockpit = props => {
 
   return (
     <div className={classes.Cockpit}>
-      <h1>My React App</h1>
-      <p className={assignedClasses.join(" ")}>JSX JSX JSX</p>
+      <h1>{props.title}</h1>
+      <p className={assignedClasses.join(" ")}>
+        Display/Remove Components, Update Text
+      </p>
       <button className={btnClass} onClick={props.clicked}>
         Toggle Persons
       </button>
