@@ -33,6 +33,24 @@ class App extends Component {
     console.log("[App.js] componentDidMount");
   }
 
+  // Within App.js, there is a state change when a persons.name is updated (event persons.showPersons).  So Update Lifecyle hooks also occur in App.
+  // shouldComponentUpdate() must return a true (default if you do not include this hook) or false (based on some logic)
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("[App.js] shouldComponentUpdate");
+    // return false; // Here you can 'prevent/control' updates
+    return true;
+  }
+
+  // You can also have getSnapshotBeforeUpdate(prevProps, prevState){...} if you wnated to
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("[App.js] getSnapshotBeforeUpdate");
+    return { message: "[App.js] Snapshot!" };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("[App.js] componentDidUpdate");
+  }
+
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => p.id === id);
 
@@ -71,7 +89,7 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <Persons
-          persons={this.state.persons}
+          persons={this.state.persons} // Note that a change to the state that is passed as a prop in Persons class component will 'trigger' the 'Update lifecycle hook' in Persons.
           clicked={this.deletePersonHandler}
           changed={this.nameChangedHandler}
         />

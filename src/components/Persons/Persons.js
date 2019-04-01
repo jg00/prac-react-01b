@@ -17,13 +17,14 @@ class Persons extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     console.log("[Persons.js shouldComponentUpdate");
     // Here you would compare your current this.props to upcoming props 'nextProps'
-    return true; // For now return true
+    return true; // For now return true; required return
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log("[Persons.js] getSnapshotBeforeUpdate");
     // return null;
-    return { message: "Snapshot!" };
+    // Ex use: Previous scroll position can then be passed to componentDidUpdate().  After DOM updated, this previous position could then be used to update the DOM again.
+    return { message: "Snapshot!" }; // Recieved in componentDidUpdate().
   }
 
   // Legacy lifecycle
