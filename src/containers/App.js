@@ -16,7 +16,8 @@ class App extends Component {
       { id: "aa3", name: "Stephanie", age: 26 }
     ],
     otherState: "some other value",
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -34,7 +35,7 @@ class App extends Component {
   }
 
   // Within App.js, there is a state change when a persons.name is updated (event persons.showPersons).  So Update Lifecyle hooks also occur in App.
-  // shouldComponentUpdate() must return a true (default if you do not include this hook) or false (based on some logic)
+  // shouldComponentUpdate() must return a true (default if you do not include this hook) or false (based on some logic).
   shouldComponentUpdate(nextProps, nextState) {
     console.log("[App.js] shouldComponentUpdate");
     // return false; // Here you can 'prevent/control' updates
@@ -98,12 +99,22 @@ class App extends Component {
 
     return (
       <div className={classes.App}>
-        <Cockpit
-          title={this.props.appTitle}
-          showPersons={this.state.showPersons}
-          persons={this.state.persons}
-          clicked={this.togglePersonsHandler}
-        />
+        <button
+          onClick={() => {
+            this.setState({ showCockpit: false });
+          }}
+        >
+          Remove Cockpit
+        </button>
+
+        {this.state.showCockpit ? (
+          <Cockpit
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            clicked={this.togglePersonsHandler}
+          />
+        ) : null}
 
         {persons}
       </div>
