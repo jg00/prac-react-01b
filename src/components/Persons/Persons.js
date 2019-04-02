@@ -17,7 +17,18 @@ class Persons extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     console.log("[Persons.js shouldComponentUpdate");
     // Here you would compare your current this.props to upcoming props 'nextProps'
-    return true; // For now return true; required return
+    // this.props.persons is our current state.  This can improve our app's performance.
+    // If no change then no need to re-render (ie no need to run render() in this component).
+    // Remember in this scenario 'persons' is an array below we are comparing the pointers to the Array []
+    // but works here becasue of how we are updating the 'persons' array in App.js (in nameChangeHandler)
+    // where we are getting a copy of the array, updating a person, and setting the new array
+    // to a new pointer.
+
+    if (nextProps.persons !== this.props.persons) {
+      return true;
+    } else return false;
+
+    // return true; // For now return true; required return
   }
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
