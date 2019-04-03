@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import React, { Component, Fragment } from "react";  // For React.Fragment
 
 import classes from "./Person.css";
+import withClass from "../../../hoc/withClass2";
 import Aux from "../../../hoc/Aux";
 
 class Person extends Component {
@@ -49,7 +50,7 @@ class Person extends Component {
   }
 }
 
-export default Person;
+export default withClass(Person, classes.Person);
 
 /* Original before wrapping in Aux
   render() {

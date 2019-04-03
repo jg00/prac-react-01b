@@ -28,10 +28,24 @@ import React from "react";
 
 // Regular Javascript function.  'W'rappedComponent is capitalized b/c we want to use it as a component in our JSX.
 const withClass = (WrappedComponent, className) => {
-  // Here you return a 'functional component'
+  /*
+    1 Here you return a 'functional component'
+
+    2 Passing props dynamically is a feature of Javascript and React.
+    Below we do accept 'props' from Person's'.js and this will be the props of our WrappedComponent.
+    There is a JSX syntax to allow us to 'forward' props.  
+    Actually React automatically takes all the attributes you add to your JSX code
+    and combines them in a 'props object'. (this is why you  ca't use props={props})
+    So you need to spread the props object attirbute using spread operator {...props} to distribute
+    them as key:value pairs.
+    In the end if props is { name:'Max', age:28 }
+      <WrappedComponent {...props} /> 
+    it will look like
+      <WrappedComponent name:'Max' age:28/>
+  */
   return props => (
     <div className={className}>
-      <WrappedComponent />
+      <WrappedComponent {...props} />
     </div>
   );
 };
