@@ -8,13 +8,13 @@
 - Class Component Lifecycle
   - Component Creation Lifecycle
   - Component Update Lifecycle (for prop and/or state changes)
-  - Working with React Hooks
-    - useState
-    - useEffect
-    - React.memo()
-  - HOC
-    - implement via wrapper around JSX code
-    - or implement around entire component
+- Working with React Hooks
+  - useState
+  - useEffect
+  - React.memo()
+- HOC
+  - implement via wrapper around JSX code
+  - or implement around entire component
 
 ## Technologies
 
