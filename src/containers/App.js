@@ -59,7 +59,7 @@ class App extends Component {
 
     person.name = event.target.value;
 
-    const persons = [...this.state.persons];
+    const persons = [...this.state.persons]; // Remeber this is a new array in memory and it's address (pointer) is saved to the variable 'persons'.
     persons[personIndex] = person;
 
     this.setState({
@@ -111,7 +111,8 @@ class App extends Component {
           <Cockpit
             title={this.props.appTitle}
             showPersons={this.state.showPersons}
-            persons={this.state.persons}
+            // persons={this.state.persons}  // Not sending b/c a change in name will cause Cockpit to rerender.  We want to rerender instead on change of array length.
+            personsLength={this.state.persons.length}
             clicked={this.togglePersonsHandler}
           />
         ) : null}

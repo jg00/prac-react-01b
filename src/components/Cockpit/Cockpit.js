@@ -34,7 +34,7 @@ const cockpit = props => {
 
     // HTTP requests..  What if want to send an HTTP request but only for the 'first' time and not for every rerender (virtual DOM) cycle?
     setTimeout(() => {
-      alert("Saved data to clound!");
+      alert("Saved data to cloud!");
     }, 1000);
 
     // Optional useEffect() return statement for clean up if needed.
@@ -62,10 +62,19 @@ const cockpit = props => {
     btnClass = classes.Red;
   }
 
-  if (props.persons.length <= 2) {
+  /*
+  Originally we are sending props.person and calculating the array length here.  A change
+  in the name is still causing Cockpit to rerender.
+  Instead of determining the length of the persons array inside of Cockpit we will send in the
+  length from outside.  Only when that is different then we want to rerender Cockpit.
+
+  */
+  // if (props.persons.length <= 2) {
+  if (props.personsLength <= 2) {
     assignedClasses.push(classes.red);
   }
-  if (props.persons.length <= 1) {
+  // if (props.persons.length <= 1) {
+  if (props.personsLength <= 1) {
     assignedClasses.push(classes.bold);
   }
 
@@ -81,4 +90,14 @@ const cockpit = props => {
     </div>
   );
 };
-export default cockpit;
+
+/*
+  React.memo(functional component) 
+  - Helps control when components rerender
+  - React will store a snapshot of this component and only if it's input changes (ie props), it
+    will rerender it.
+  - If inputs do not change and some parent component wants to update this Cockpit component,
+    React will instead give back that stored component.
+*/
+// export default cockpit;
+export default React.memo(cockpit);
