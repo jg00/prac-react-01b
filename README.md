@@ -12,6 +12,9 @@
     - useState
     - useEffect
     - React.memo()
+  - HOC
+    - implement via wrapper around JSX code
+    - or implement around entire component
 
 ## Technologies
 

@@ -1,7 +1,9 @@
-import React, { Component } from "react";
+// import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import Person from "./Person/Person";
 
-class Persons extends Component {
+// class Persons extends Component {
+class Persons extends PureComponent {
   // Commented b/c Persons initial state is undefined and should not be called here.
   // However this does get fired as part of the "Component Creation Lifecycle"
   static getDerivedStateFromProps(props, state) {
@@ -14,22 +16,39 @@ class Persons extends Component {
   //   console.log("[Persons.js] componentWillReceiveProps", props);
   // }
 
+  /* shouldComponentUpdate() kept for reference but no longer needed since we extend PureComponent
+
   shouldComponentUpdate(nextProps, nextState) {
     console.log("[Persons.js shouldComponentUpdate");
-    // Here you would compare your current this.props to upcoming props 'nextProps'
-    // this.props.persons is our current state.  This can improve our app's performance.
-    // If no change then no need to re-render (ie no need to run render() in this component).
-    // Remember in this scenario 'persons' is an array below we are comparing the pointers to the Array []
-    // but works here becasue of how we are updating the 'persons' array in App.js (in nameChangeHandler)
-    // where we are getting a copy of the array, updating a person, and setting the new array
-    // to a new pointer.
 
+      // Here you would compare your current this.props to upcoming props 'nextProps'
+      // this.props.persons is our current state.  This can improve our app's performance.
+      // If no change then no need to re-render (ie no need to run render() in this component).
+      // Remember in this scenario 'persons' is an array below we are comparing the pointers to the Array []
+      // but works here becasue of how we are updating the 'persons' array in App.js (in nameChangeHandler)
+      // where we are getting a copy of the array, updating a person, and setting the new array
+      // to a new pointer.
+    
     if (nextProps.persons !== this.props.persons) {
       return true;
     } else return false;
+    
+      // PureComponents - Use if we want to check if 'all' props of a component changed instead
+      // of shouldComponentUpdate().  PureComponents already implements shouldComponentUpdate()
+      // with a complete props check.
 
+      // Persons.js is really using not just persons data changes and but also other functions.
+      // What if we did have a change in those functions?  We can simply use PureComponents.
+
+      // if (nextProps.persons !== this.props.persons
+      //   || nextProps.changed !== this.props.changed
+      //   || nextProps.clicked !== this.props.clicked) {
+      //   return true;
+      // } else return false;
+    
     // return true; // For now return true; required return
   }
+  */
 
   getSnapshotBeforeUpdate(prevProps, prevState) {
     console.log("[Persons.js] getSnapshotBeforeUpdate");

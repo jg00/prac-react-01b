@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import classes from "./App.css";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+// import WithClass from "../hoc/WithClass";  // One way of implementing an HOC
+import withClass from "../hoc/withClass2";
+import Aux from "../hoc/Aux";
 
 class App extends Component {
   constructor(props) {
@@ -98,7 +101,10 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <Aux>
+        {/* <WithClass classes={classes.App}> */}
+        {/* <div className={classes.App}> */}
+
         <button
           onClick={() => {
             this.setState({ showCockpit: false });
@@ -118,9 +124,20 @@ class App extends Component {
         ) : null}
 
         {persons}
-      </div>
+
+        {/* </div> */}
+        {/* </WithClass> */}
+      </Aux>
     );
   }
 }
 
-export default App;
+/*
+  HOC notes: 
+  This is our second way of implementing a HOC.
+  Here where you 'export your entire App component' you now call a Javascript function, pass it
+  'the entire App Component and any other data, and finally this function returns a 'functional
+  component' that we modified in 'withClass2.js'
+*/
+
+export default withClass(App, classes.App);
