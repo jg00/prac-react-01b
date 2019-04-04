@@ -21,6 +21,7 @@
 - Using Refs
   - In class components - React.createRef()
   - In functional components - useRef React Hook
+- Context
 
 ## Technologies
 

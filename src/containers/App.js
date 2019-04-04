@@ -21,7 +21,8 @@ class App extends Component {
     otherState: "some other value",
     showPersons: false,
     showCockpit: true,
-    changeCounter: 0
+    changeCounter: 0,
+    authenticated: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -97,6 +98,10 @@ class App extends Component {
     });
   };
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
+
   deletePersonHandler = personIndex => {
     const persons = [...this.state.persons];
 
@@ -116,6 +121,7 @@ class App extends Component {
           persons={this.state.persons} // Note that a change to the state that is passed as a prop in Persons class component will 'trigger' the 'Update lifecycle hook' in Persons.
           clicked={this.deletePersonHandler}
           changed={this.nameChangedHandler}
+          isAuthenticated={this.state.authenticated}
         />
       );
     }
@@ -140,6 +146,7 @@ class App extends Component {
             // persons={this.state.persons}  // Not sending b/c a change in name will cause Cockpit to rerender.  We want to rerender instead on change of array length.
             personsLength={this.state.persons.length}
             clicked={this.togglePersonsHandler}
+            login={this.loginHandler}
           />
         ) : null}
 
