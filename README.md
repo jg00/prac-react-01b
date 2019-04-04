@@ -12,9 +12,15 @@
   - useState
   - useEffect
   - React.memo()
+  - useRef
 - HOC
   - implement via wrapper around JSX code
   - or implement around entire component
+- Setting this.setState() properly when new state depends on previous state
+- Using PropTypes
+- Using Refs
+  - In class components - React.createRef()
+  - In functional components - useRef React Hook
 
 ## Technologies
 

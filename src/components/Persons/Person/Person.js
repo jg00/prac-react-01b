@@ -9,6 +9,7 @@ import Aux from "../../../hoc/Aux";
 
 class Person extends Component {
   /*
+    I HOCs
     - Note on render() has to return one root element and then children elements.  
       However we can return adjacent JSX elements without a root but instead an array of elements
       but also needs to be provided the key.  Eventually this is an array of React.CreateElement().
@@ -32,6 +33,36 @@ class Person extends Component {
         Or import Fragment from React and just use <Fragment>...</Fragment>
   */
 
+  /*
+    II Using "ref" keyword property
+    a. One approach applied only in class components (not in functional components)
+
+      ref={inputEl => {
+            this.inputElement = inputEl;
+          }}
+      
+      inputEl - argument is a reference to the JSX element you are placing 'ref' property on.
+      this.inputElement (inside render() we add/create this 'global' property associted to 'this') 
+        - you can add any property to this 'class' which will hold your inputEl
+
+    b. Another approach requires us to use the constructor and use React.createRef().
+          
+  */
+
+  constructor(props) {
+    super(props);
+    this.inputElementRef = React.createRef();
+  }
+
+  componentDidMount() {
+    // In regular Javascript you could after component renders, you could set focus on the last element.
+    // However this does not refer to the component rendered here.  Do no update the DOM directly.
+    // document.querySelector("input").focus(); // Howerver this would always set focus on the first one found.
+
+    // this.inputElement.focus();
+    this.inputElementRef.current.focus(); // .current element - gives you access to your current reference.
+  }
+
   render() {
     console.log("[Person.js rendering...");
     return (
@@ -40,8 +71,15 @@ class Person extends Component {
         <p onClick={this.props.click}>
           I am {this.props.name} and I am {this.props.age} years old!
         </p>
-        <p>{this.props.children}</p>
+        <p key="i2">{this.props.children}</p>
         <input
+          key="i2"
+          // One way left here for reference
+          // ref={inputEl => {
+          //   this.inputElement = inputEl;  // You are adding/creating a .inputElement(any name) here on render.  Then on componentDidMout() you have access to it and set .focus()
+          // }}
+
+          ref={this.inputElementRef}
           type="text"
           onChange={this.props.changed}
           value={this.props.name}

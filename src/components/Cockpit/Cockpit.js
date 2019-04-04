@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import classes from "./Cockpit.css";
 
 /*
+  I
   useEffect(()=>{... [return () => {...}] }, [dependencies, ...])
 
     - dependencies (control when useEffect() should run):
@@ -26,16 +27,30 @@ import classes from "./Cockpit.css";
       needed because you could use useState() and base your state on the props sent to this functional component.
     
     - Multiple useEffect()s can be used if you have changes to different data
-*/
+  */
+
+/*
+    II Using Refs with React Hooks in functional components.
+    - You do not use React.createRef().  This was only for class components.  Example in Person.js.
+
+  */
 
 const cockpit = props => {
+  // Lets say you wan to autmatically click the toggle persons button whenever the entire page loads.
+  const toggleBtnRef = useRef(null); // You could pass initial value here but for now pass null
+  // toggleBtnRef.current.click();  // Won't work here because render() will not have run yet.
+
   useEffect(() => {
     console.log("[Cockpit.js] useEffect");
 
+    /*
     // HTTP requests..  What if want to send an HTTP request but only for the 'first' time and not for every rerender (virtual DOM) cycle?
     setTimeout(() => {
       alert("Saved data to cloud!");
     }, 1000);
+    */
+
+    toggleBtnRef.current.click(); // we now have access to toggleBtnRef b/c useEffect() runs after every render().
 
     // Optional useEffect() return statement for clean up if needed.
     // (Important) Runs BEFORE the main useEffect functions, AFTER the (first) render cycle.
@@ -84,7 +99,7 @@ const cockpit = props => {
       <p className={assignedClasses.join(" ")}>
         Display/Remove Components, Update Text
       </p>
-      <button className={btnClass} onClick={props.clicked}>
+      <button ref={toggleBtnRef} className={btnClass} onClick={props.clicked}>
         Toggle Persons
       </button>
     </div>
