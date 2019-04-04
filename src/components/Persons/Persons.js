@@ -4,12 +4,14 @@ import Person from "./Person/Person";
 
 // class Persons extends Component {
 class Persons extends PureComponent {
-  // Commented b/c Persons initial state is undefined and should not be called here.
+  // Commented getDerivedStateFromProps(props, state) b/c Persons initial state is undefined and should not be called here.
   // However this does get fired as part of the "Component Creation Lifecycle"
-  static getDerivedStateFromProps(props, state) {
-    console.log("[Persons.js getDerivedStateFromProps");
-    return state; // We don't have a state in Persons so will just be {}
-  }
+  /*
+    static getDerivedStateFromProps(props, state) {
+      console.log("[Persons.js getDerivedStateFromProps");
+      return state; // We don't have a state in Persons so will just be {}
+    }
+  */
 
   // Legacy lifecycle
   // componentWillReceiveProps(props) {

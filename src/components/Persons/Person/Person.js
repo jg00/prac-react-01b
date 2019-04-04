@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 // import React, { Component, Fragment } from "react";  // For React.Fragment
 
+import PropTypes from "prop-types";
+
 import classes from "./Person.css";
 import withClass from "../../../hoc/withClass2";
 import Aux from "../../../hoc/Aux";
@@ -49,6 +51,24 @@ class Person extends Component {
     );
   }
 }
+
+/*
+  'prop-types' package:
+  After defining either a class or functional component you can define PropTypes here.
+
+  Add property to Person.propTypes is a special property which you add to any Javascript 'Component Object'
+  that React will watch out for 'in development mode' and React will give you a warning if you pass in 
+  incorrect props.
+
+  Provide object of key:value pairs and now using PropTypes you defined at the top upon import
+*/
+
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string,
+  age: PropTypes.number,
+  changed: PropTypes.func
+};
 
 export default withClass(Person, classes.Person);
 
