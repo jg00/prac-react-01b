@@ -20,7 +20,8 @@ class App extends Component {
     ],
     otherState: "some other value",
     showPersons: false,
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -65,8 +66,27 @@ class App extends Component {
     const persons = [...this.state.persons]; // Remeber this is a new array in memory and it's address (pointer) is saved to the variable 'persons'.
     persons[personIndex] = person;
 
-    this.setState({
-      persons: persons
+    /* Issue: 
+      - You call setState() but it is 'not quaranteed to execute immediately'.
+    
+      - changeCounter is dependent on the old counter state and adding one to it.
+      Behind the scene, .setState() does not immediately trigger an update of the state of this component,
+      and a rerender() cycle.  Instead it is basically scheduled by React.
+
+      this.setState({
+        persons: persons,
+        changeCounter: this.state.changeCounter + 1
+    });
+    */
+
+    // If depending on previous state, you can instead send in a function to update correctly
+    // React guarantees you are using the correct previous state expected.
+    // "props" below are your current state.
+    this.setState((prevState, props) => {
+      return {
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
+      };
     });
   };
 
