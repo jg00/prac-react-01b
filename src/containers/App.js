@@ -5,6 +5,7 @@ import Cockpit from "../components/Cockpit/Cockpit";
 // import WithClass from "../hoc/WithClass";  // One way of implementing an HOC
 import withClass from "../hoc/withClass2";
 import Aux from "../hoc/Aux";
+import AuthContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -139,18 +140,25 @@ class App extends Component {
           Remove Cockpit
         </button>
 
-        {this.state.showCockpit ? (
-          <Cockpit
-            title={this.props.appTitle}
-            showPersons={this.state.showPersons}
-            // persons={this.state.persons}  // Not sending b/c a change in name will cause Cockpit to rerender.  We want to rerender instead on change of array length.
-            personsLength={this.state.persons.length}
-            clicked={this.togglePersonsHandler}
-            login={this.loginHandler}
-          />
-        ) : null}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit
+              title={this.props.appTitle}
+              showPersons={this.state.showPersons}
+              // persons={this.state.persons}  // Not sending b/c a change in name will cause Cockpit to rerender.  We want to rerender instead on change of array length.
+              personsLength={this.state.persons.length}
+              clicked={this.togglePersonsHandler}
+              // login={this.loginHandler} // No longer sending b/c replaced with Context API
+            />
+          ) : null}
 
-        {persons}
+          {persons}
+        </AuthContext.Provider>
 
         {/* </div> */}
         {/* </WithClass> */}

@@ -3,9 +3,10 @@ import React, { Component } from "react";
 
 import PropTypes from "prop-types";
 
-import classes from "./Person.css";
-import withClass from "../../../hoc/withClass2";
 import Aux from "../../../hoc/Aux";
+import withClass from "../../../hoc/withClass2";
+import classes from "./Person.css";
+import AuthContext from "../../../context/auth-context";
 
 class Person extends Component {
   /*
@@ -54,6 +55,20 @@ class Person extends Component {
     this.inputElementRef = React.createRef();
   }
 
+  /*
+    In React 16.6 added 'static contextType' property which is another way of using Context that allows you
+    to access Context at class component level and not just in your render() JSX code.
+
+    The contextType property on a class can be assigned a Context object created by 
+    React.createContext().
+
+    Now you have a new 'this.context' property available in this class component.
+
+    Only available in class components but not functional components.
+  */
+
+  static contextType = AuthContext; // Assign to it a Context object which you can access using 'this.context'.
+
   componentDidMount() {
     // In regular Javascript you could after component renders, you could set focus on the last element.
     // However this does not refer to the component rendered here.  Do no update the DOM directly.
@@ -61,20 +76,38 @@ class Person extends Component {
 
     // this.inputElement.focus();
     this.inputElementRef.current.focus(); // .current element - gives you access to your current reference.
+
+    // Now we have access to our Context
+    // console.log(this.context.login)
+    console.log("==context==", this.context.authenticated);
   }
 
   render() {
     console.log("[Person.js rendering...");
     return (
       <Aux>
-        {this.props.isAuth ? <p>Authenticated!</p> : <p>Please log in</p>}
+        {this.context.authenticated ? (
+          <p>Authenticated!</p>
+        ) : (
+          <p>Please log in</p>
+        )}
+
+        {/* Kept for reference.  Replaced with 'static contextType'
+        <AuthContext.Consumer>
+          {context =>
+            context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>
+          }
+        </AuthContext.Consumer> */}
+
+        {/* {this.props.isAuth ? <p>Authenticated!</p> : <p>Please log in</p>} */}
+
         {/* <Fragment> */}
         <p onClick={this.props.click}>
           I am {this.props.name} and I am {this.props.age} years old!
         </p>
         <p key="i2">{this.props.children}</p>
         <input
-          key="i2"
+          key="i3"
           // One way left here for reference
           // ref={inputEl => {
           //   this.inputElement = inputEl;  // You are adding/creating a .inputElement(any name) here on render.  Then on componentDidMout() you have access to it and set .focus()

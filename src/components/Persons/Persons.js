@@ -1,6 +1,7 @@
 // import React, { Component } from "react";
 import React, { PureComponent } from "react";
 import Person from "./Person/Person";
+// import AuthContext from "../../context/auth-context";  // Will not be used here
 
 // class Persons extends Component {
 class Persons extends PureComponent {
@@ -75,8 +76,16 @@ class Persons extends PureComponent {
     console.log("[Persons.js componentWillUnmount");
   }
 
+  /*
+    Note that this was only here for reference.  The point of the using Context was so we
+    "skip" having to push props through Persons.js.  Properties will already be available to Person.js.
+    
+    <AuthoContext.Consumer> takes in a function as a child and not JSX.
+    (context) => context is the object (or any values your received from the Provider) <AuthoContext.Provider value={{,,}}
+  */
   render() {
     console.log("[Persons.js] rendering...");
+
     return this.props.persons.map((person, index) => {
       return (
         <Person
@@ -85,12 +94,35 @@ class Persons extends PureComponent {
           age={person.age}
           changed={event => this.props.changed(event, person.id)}
           key={person.id}
-          isAuth={this.props.isAuthenticated} // only forwards this to Person.js
+          // isAuth={this.props.isAuthenticated} // only forwards this to Person.js; No longer forwarded to Person.js b/c using Context
         />
       );
     });
   }
 }
+
+/*  Kept for ref 'if' we were going to use it here but we are 'skipping' this extra forwarding of 'props' to Person.js
+    return (
+      <AuthContext.Consumer>
+
+        {(context) => this.props.persons.map((person, index) => {
+          return (
+            <Person
+              click={() => this.props.clicked(index)}
+              name={person.name}
+              age={person.age}
+              changed={event => this.props.changed(event, person.id)}
+              key={person.id}
+              isAuth={this.props.isAuthenticated} // only forwards this to Person.js
+            />
+          );
+        })}
+
+      </AuthContext.Consumer>
+    );
+  }
+}
+*/
 
 export default Persons;
 

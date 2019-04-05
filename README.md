@@ -21,7 +21,11 @@
 - Using Refs
   - In class components - React.createRef()
   - In functional components - useRef React Hook
-- Context
+- Context API
+  - Access via .Consumer tag only available in rendered JSX.
+  - New alternatives to access Context
+    - static contextType (for class components)
+    - useContext (for functional components)
 
 ## Technologies
 

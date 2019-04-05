@@ -1,44 +1,58 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import classes from "./Cockpit.css";
+import AuthContext from "../../context/auth-context";
 
 /*
   I
   useEffect(()=>{... [return () => {...}] }, [dependencies, ...])
 
-    - dependencies (control when useEffect() should run):
-      optional array of specified variables/data to control 'when' this function executes
-      or pass an empty array [] if you want function to execute only the first time.
-    
-    - return () => {...}
-      The clean-up function runs before the component is removed from the UI 
-      to prevent memory leaks. Additionally, if a component renders multiple times 
-      (as they typically do), the previous effect is cleaned up before executing 
-      the next effect. In our example, this means a new subscription is created 
-      on every update. 
+  - dependencies (control when useEffect() should run):
+    optional array of specified variables/data to control 'when' this function executes
+    or pass an empty array [] if you want function to execute only the first time.
+  
+  - return () => {...}
+    The clean-up function runs before the component is removed from the UI 
+    to prevent memory leaks. Additionally, if a component renders multiple times 
+    (as they typically do), the previous effect is cleaned up before executing 
+    the next effect. In our example, this means a new subscription is created 
+    on every update. 
 
-    - takes a function that will run for every render cycle of the current functional component (the Cockpit.js in this case).
-    - Here it runs for every update.  This means we can use it for all things we could do 
-      in ComponentDidUpdate().  
-    - So we can do things like HTTP requests, etc.
-    - useEffect() also runs when component is created.
+  - takes a function that will run for every render cycle of the current functional component (the Cockpit.js in this case).
+  - Here it runs for every update.  This means we can use it for all things we could do 
+    in ComponentDidUpdate().  
+  - So we can do things like HTTP requests, etc.
+  - useEffect() also runs when component is created.
 
-    - useEffect() combines componentDidMount() and componentDidUpdate() combined in one effect.
-    - some hooks like getDerivedStateFromProps(props, state) are not included and not really
-      needed because you could use useState() and base your state on the props sent to this functional component.
-    
-    - Multiple useEffect()s can be used if you have changes to different data
-  */
+  - useEffect() combines componentDidMount() and componentDidUpdate() combined in one effect.
+  - some hooks like getDerivedStateFromProps(props, state) are not included and not really
+    needed because you could use useState() and base your state on the props sent to this functional component.
+  
+  - Multiple useEffect()s can be used if you have changes to different data
+*/
 
 /*
-    II Using Refs with React Hooks in functional components.
-    - You do not use React.createRef().  This was only for class components.  Example in Person.js.
+  II Using Refs with React Hooks in functional components.
+  - You do not use React.createRef().  This was only for class components.  Example in Person.js.
+*/
 
-  */
+/*
+  III useContext 
+  - allows you to get access to your Context within functional components anywhere in your functional
+    component's function body.
+
+  - You cannot set up a static contextType here in functional components.
+  
+*/
 
 const cockpit = props => {
   // Lets say you wan to autmatically click the toggle persons button whenever the entire page loads.
   const toggleBtnRef = useRef(null); // You could pass initial value here but for now pass null
   // toggleBtnRef.current.click();  // Won't work here because render() will not have run yet.
+
+  // useContext() - Here React will make a connection for your behind the scenes
+  const authContext = useContext(AuthContext);
+
+  console.log("==[Cockpit.js] useContext()==", authContext.authenticated);
 
   useEffect(() => {
     console.log("[Cockpit.js] useEffect");
@@ -102,7 +116,16 @@ const cockpit = props => {
       <button ref={toggleBtnRef} className={btnClass} onClick={props.clicked}>
         Toggle Persons
       </button>
-      <button onClick={props.login}>Log in</button>
+
+      <button onClick={authContext.login}>Log in</button>
+
+      {/* Kepty for reference
+      <AuthContext.Consumer>
+        {context => <button onClick={context.login}>Log in</button>}
+      </AuthContext.Consumer>
+      */}
+
+      {/* <button onClick={props.login}>Log in</button> */}
     </div>
   );
 };
